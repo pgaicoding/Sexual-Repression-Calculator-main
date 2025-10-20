@@ -64,7 +64,23 @@ Node.js 应用 (端口 3001)
    npm --version
    ```
 
-5. **安装PM2管理器**:
+5. **如果使用宝塔安装的Node.js出现"npm command not found"**:
+   ```bash
+   # 查找宝塔安装的Node.js位置
+   find /www/server/nodejs -name "node" -type f 2>/dev/null
+
+   # 创建软链接 (以v22.20.0为例，请根据实际版本调整)
+   sudo ln -s /www/server/nodejs/v22.20.0/bin/node /usr/local/bin/node
+   sudo ln -s /www/server/nodejs/v22.20.0/bin/npm /usr/local/bin/npm
+
+   # 验证软链接创建成功
+   which node
+   which npm
+   node --version
+   npm --version
+   ```
+
+6. **安装PM2管理器**:
    - 软件商店 → 搜索 "PM2管理器" → 安装
 
 ### 第三步：部署项目代码
@@ -239,21 +255,28 @@ pm2 delete sri-calculator
 
 **错误信息**: `npm command not found, but can be installed with: apt install npm`
 
-**解决方案**:
+**原因**: 宝塔安装的Node.js位于 `/www/server/nodejs/` 目录，不在系统PATH中
+
+**解决方案** (推荐使用软链接):
 ```bash
-# 方法1: 安装官方推荐版本 (推荐)
+# 方法1: 创建软链接 (推荐，适用于宝塔安装的Node.js)
+# 查找Node.js版本
+ls /www/server/nodejs/
+
+# 创建软链接 (根据实际版本调整，如 v22.20.0)
+sudo ln -s /www/server/nodejs/v22.20.0/bin/node /usr/local/bin/node
+sudo ln -s /www/server/nodejs/v22.20.0/bin/npm /usr/local/bin/npm
+
+# 验证
+which node && which npm
+node --version && npm --version
+
+# 方法2: 重新安装Node.js (如果宝塔版本有问题)
 curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash -
 sudo apt-get install -y nodejs
 
-# 方法2: 使用系统包管理器 (版本可能较老)
-sudo apt update
-sudo apt install nodejs npm
-
-# 验证安装
-node --version  # 需要 >= v18.0.0
-npm --version
-
-# 如果版本太低，使用方法1重新安装
+# 方法3: 使用完整路径 (临时方案)
+/www/server/nodejs/v22.20.0/bin/npm --version
 ```
 
 ### 2. 应用无法启动
