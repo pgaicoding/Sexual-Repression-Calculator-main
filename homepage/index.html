@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>China Deep Learning - 深度学习与AI工具集</title>
+    <meta name="description" content="基于深度学习的专业AI工具集合，提供心理测评、数据分析等多种智能服务">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'primary': '#6366f1',
+                        'secondary': '#8b5cf6',
+                        'accent': '#ec4899',
+                        'psychology': {
+                            primary: '#6366f1',
+                            secondary: '#8b5cf6',
+                            accent: '#ec4899',
+                            calm: '#f1f5f9',
+                            warm: '#fef7ff'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/lucide/0.263.1/lucide.min.css" rel="stylesheet">
+</head>
+<body class="min-h-screen bg-gradient-to-br from-psychology-calm via-white to-psychology-warm">
+    <!-- 背景装饰 -->
+    <div class="absolute inset-0 overflow-hidden pointer-events-none">
+        <div class="absolute top-20 left-20 w-8 h-8 bg-primary/10 rounded-full"></div>
+        <div class="absolute top-40 right-32 w-12 h-12 bg-accent/10 rounded-full"></div>
+        <div class="absolute bottom-40 left-1/4 w-6 h-6 bg-secondary/10 rounded-full"></div>
+        <div class="absolute bottom-32 right-20 w-10 h-10 bg-primary/5 rounded-full"></div>
+    </div>
+
+    <div class="relative z-10">
+        <!-- 导航栏 -->
+        <nav class="container mx-auto px-4 py-6">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 bg-primary rounded-lg flex items-center justify-center">
+                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path>
+                        </svg>
+                    </div>
+                    <div>
+                        <h1 class="font-bold text-lg text-primary">China Deep Learning</h1>
+                        <p class="text-xs text-gray-600">AI工具与深度学习平台</p>
+                    </div>
+                </div>
+
+                <div class="hidden md:flex items-center gap-4">
+                    <a href="#tools" class="text-sm text-gray-600 hover:text-primary transition-colors">工具集</a>
+                    <a href="#about" class="text-sm text-gray-600 hover:text-primary transition-colors">关于我们</a>
+                    <a href="#contact" class="text-sm text-gray-600 hover:text-primary transition-colors">联系我们</a>
+                </div>
+            </div>
+        </nav>
+
+        <!-- 主要内容区域 -->
+        <main class="container mx-auto px-4 pb-20">
+            <!-- 英雄区域 -->
+            <section class="text-center mb-20">
+                <div class="max-w-4xl mx-auto">
+                    <div class="inline-flex items-center gap-2 bg-primary/10 text-primary border border-primary/20 rounded-full px-4 py-2 mb-6">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                        </svg>
+                        基于AI技术的专业工具平台
+                    </div>
+
+                    <h1 class="text-4xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent">
+                        China Deep Learning
+                    </h1>
+
+                    <p class="text-xl text-gray-600 mb-8 leading-relaxed max-w-3xl mx-auto">
+                        汇集前沿AI技术与深度学习算法，提供心理测评、数据分析、智能诊断等多领域专业工具，
+                        为个人成长、学术研究和专业应用提供科学可靠的解决方案。
+                    </p>
+
+                    <!-- 核心指标展示 -->
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-4xl mx-auto mb-12">
+                        <div class="text-center p-4 bg-white/80 backdrop-blur-sm rounded-xl border border-primary/10">
+                            <svg class="w-8 h-8 text-primary mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                            </svg>
+                            <div class="text-2xl font-bold text-primary">AI</div>
+                            <div class="text-sm text-gray-600">驱动技术</div>
+                        </div>
+
+                        <div class="text-center p-4 bg-white/80 backdrop-blur-sm rounded-xl border border-secondary/10">
+                            <svg class="w-8 h-8 text-secondary mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                            </svg>
+                            <div class="text-2xl font-bold text-secondary">多领域</div>
+                            <div class="text-sm text-gray-600">专业工具</div>
+                        </div>
+
+                        <div class="text-center p-4 bg-white/80 backdrop-blur-sm rounded-xl border border-accent/10">
+                            <svg class="w-8 h-8 text-accent mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
+                            </svg>
+                            <div class="text-2xl font-bold text-accent">科学</div>
+                            <div class="text-sm text-gray-600">验证可靠</div>
+                        </div>
+
+                        <div class="text-center p-4 bg-white/80 backdrop-blur-sm rounded-xl border border-green-500/10">
+                            <svg class="w-8 h-8 text-green-500 mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z"></path>
+                            </svg>
+                            <div class="text-2xl font-bold text-green-500">用户</div>
+                            <div class="text-sm text-gray-600">隐私保护</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 工具集展示 -->
+            <section id="tools" class="mb-20">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl font-bold text-gray-900 mb-4">专业AI工具集</h2>
+                    <p class="text-lg text-gray-600 max-w-2xl mx-auto">
+                        基于深度学习技术开发的专业工具，为不同领域提供科学可靠的解决方案
+                    </p>
+                </div>
+
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
+                    <!-- 性压抑计算器 -->
+                    <div class="bg-white/80 backdrop-blur-sm rounded-xl border border-primary/10 p-6 hover:shadow-xl transition-all duration-300 group">
+                        <div class="flex items-center gap-3 mb-4">
+                            <div class="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center">
+                                <svg class="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path>
+                                </svg>
+                            </div>
+                            <div>
+                                <h3 class="text-xl font-semibold text-primary">性压抑指数计算器</h3>
+                                <p class="text-sm text-gray-600">心理健康评估工具</p>
+                            </div>
+                        </div>
+
+                        <p class="text-gray-600 mb-6 leading-relaxed">
+                            基于国际认可的心理测量学量表，提供科学可靠的性心理健康自我评估，
+                            帮助了解个人性心理特征，促进健康发展。
+                        </p>
+
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="flex items-center gap-4 text-sm text-gray-500">
+                                <span class="flex items-center gap-1">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                    </svg>
+                                    8-40分钟
+                                </span>
+                                <span class="flex items-center gap-1">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                    </svg>
+                                    科学验证
+                                </span>
+                            </div>
+                            <div class="bg-green-100 text-green-800 text-xs px-2 py-1 rounded-full">
+                                已上线
+                            </div>
+                        </div>
+
+                        <a href="/sri/" class="inline-flex items-center justify-center w-full bg-primary hover:bg-primary/90 text-white px-4 py-2 rounded-lg transition-colors group-hover:shadow-md">
+                            开始评估
+                            <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
+                            </svg>
+                        </a>
+                    </div>
+
+                    <!-- 即将推出的工具 -->
+                    <div class="bg-white/60 backdrop-blur-sm rounded-xl border border-gray-200 p-6 opacity-75">
+                        <div class="flex items-center gap-3 mb-4">
+                            <div class="w-12 h-12 bg-gray-100 rounded-lg flex items-center justify-center">
+                                <svg class="w-6 h-6 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                                </svg>
+                            </div>
+                            <div>
+                                <h3 class="text-xl font-semibold text-gray-500">AI数据分析平台</h3>
+                                <p class="text-sm text-gray-400">智能数据处理工具</p>
+                            </div>
+                        </div>
+
+                        <p class="text-gray-500 mb-6 leading-relaxed">
+                            基于深度学习的数据分析平台，提供自动化数据处理、
+                            模式识别和预测分析功能。
+                        </p>
+
+                        <div class="bg-gray-100 text-gray-600 text-xs px-2 py-1 rounded-full inline-block mb-4">
+                            即将推出
+                        </div>
+
+                        <button disabled class="w-full bg-gray-200 text-gray-400 px-4 py-2 rounded-lg cursor-not-allowed">
+                            敬请期待
+                        </button>
+                    </div>
+
+                    <div class="bg-white/60 backdrop-blur-sm rounded-xl border border-gray-200 p-6 opacity-75">
+                        <div class="flex items-center gap-3 mb-4">
+                            <div class="w-12 h-12 bg-gray-100 rounded-lg flex items-center justify-center">
+                                <svg class="w-6 h-6 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+                                </svg>
+                            </div>
+                            <div>
+                                <h3 class="text-xl font-semibold text-gray-500">智能学习助手</h3>
+                                <p class="text-sm text-gray-400">个性化学习工具</p>
+                            </div>
+                        </div>
+
+                        <p class="text-gray-500 mb-6 leading-relaxed">
+                            AI驱动的个性化学习平台，根据学习者特点提供
+                            定制化的学习路径和内容推荐。
+                        </p>
+
+                        <div class="bg-gray-100 text-gray-600 text-xs px-2 py-1 rounded-full inline-block mb-4">
+                            开发中
+                        </div>
+
+                        <button disabled class="w-full bg-gray-200 text-gray-400 px-4 py-2 rounded-lg cursor-not-allowed">
+                            敬请期待
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 关于我们 -->
+            <section id="about" class="mb-20">
+                <div class="bg-white/80 backdrop-blur-sm rounded-xl border border-primary/10 p-8">
+                    <div class="max-w-4xl mx-auto text-center">
+                        <h2 class="text-3xl font-bold text-gray-900 mb-6">关于China Deep Learning</h2>
+                        <p class="text-lg text-gray-600 mb-8 leading-relaxed">
+                            我们致力于将前沿的AI技术与深度学习算法应用到实际问题的解决中，
+                            为心理健康、教育学习、数据分析等领域提供科学可靠的工具和服务。
+                        </p>
+
+                        <div class="grid md:grid-cols-3 gap-8 mb-8">
+                            <div class="text-center">
+                                <div class="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                                    <svg class="w-8 h-8 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                                    </svg>
+                                </div>
+                                <h3 class="font-semibold mb-2">技术创新</h3>
+                                <p class="text-sm text-gray-600">采用最新的AI技术和深度学习算法</p>
+                            </div>
+
+                            <div class="text-center">
+                                <div class="w-16 h-16 bg-secondary/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                                    <svg class="w-8 h-8 text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                    </svg>
+                                </div>
+                                <h3 class="font-semibold mb-2">科学严谨</h3>
+                                <p class="text-sm text-gray-600">基于科学研究和验证的方法论</p>
+                            </div>
+
+                            <div class="text-center">
+                                <div class="w-16 h-16 bg-accent/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                                    <svg class="w-8 h-8 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z"></path>
+                                    </svg>
+                                </div>
+                                <h3 class="font-semibold mb-2">用户为本</h3>
+                                <p class="text-sm text-gray-600">注重用户体验和隐私保护</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- CTA区域 -->
+            <section class="text-center">
+                <div class="max-w-3xl mx-auto">
+                    <h2 class="text-3xl font-bold mb-4">探索AI驱动的专业工具</h2>
+                    <p class="text-lg text-gray-600 mb-8">
+                        体验基于深度学习技术的创新工具，开启智能化的问题解决之旅。
+                    </p>
+                    <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                        <a href="/sri/" class="inline-flex items-center justify-center bg-primary hover:bg-primary/90 text-white px-8 py-4 rounded-lg text-lg transition-colors">
+                            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                            </svg>
+                            开始使用工具
+                        </a>
+                        <a href="#about" class="inline-flex items-center justify-center border border-primary text-primary hover:bg-primary hover:text-white transition-colors px-8 py-4 rounded-lg text-lg">
+                            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                            了解更多
+                        </a>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- 页脚 -->
+        <footer class="border-t border-gray-200 bg-white/50 backdrop-blur-sm">
+            <div class="container mx-auto px-4 py-8">
+                <div class="grid md:grid-cols-4 gap-8">
+                    <div>
+                        <div class="flex items-center gap-2 mb-4">
+                            <svg class="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path>
+                            </svg>
+                            <span class="font-bold text-primary">China Deep Learning</span>
+                        </div>
+                        <p class="text-sm text-gray-600">
+                            基于AI技术的专业工具平台，为多个领域提供科学可靠的解决方案。
+                        </p>
+                    </div>
+
+                    <div>
+                        <h4 class="font-semibold mb-3">工具与服务</h4>
+                        <ul class="space-y-2 text-sm text-gray-600">
+                            <li><a href="/sri/" class="hover:text-primary">性压抑指数计算器</a></li>
+                            <li><a href="#" class="hover:text-primary text-gray-400">AI数据分析(即将推出)</a></li>
+                            <li><a href="#" class="hover:text-primary text-gray-400">智能学习助手(开发中)</a></li>
+                        </ul>
+                    </div>
+
+                    <div>
+                        <h4 class="font-semibold mb-3">资源</h4>
+                        <ul class="space-y-2 text-sm text-gray-600">
+                            <li><a href="#about" class="hover:text-primary">关于我们</a></li>
+                            <li><a href="#" class="hover:text-primary">技术博客</a></li>
+                            <li><a href="#" class="hover:text-primary">隐私政策</a></li>
+                        </ul>
+                    </div>
+
+                    <div>
+                        <h4 class="font-semibold mb-3">联系我们</h4>
+                        <ul class="space-y-2 text-sm text-gray-600">
+                            <li><a href="#" class="hover:text-primary">技术支持</a></li>
+                            <li><a href="#" class="hover:text-primary">合作咨询</a></li>
+                            <li><a href="https://github.com" class="hover:text-primary">GitHub</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="border-t border-gray-200 mt-8 pt-8 text-center text-sm text-gray-600">
+                    <p>© 2025 China Deep Learning. 致力于AI技术的创新应用与普及。</p>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        // 平滑滚动
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>

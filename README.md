@@ -1,34 +1,75 @@
-# 性压抑指数计算器 (Sexual Repression Index Calculator)
+# China Deep Learning - AI工具集 & 性压抑指数计算器
 
-🧠 **基于科学研究的专业性心理健康评估工具**
+🧠 **基于深度学习和科学研究的专业AI工具平台 - MVP版本**
 
-## 项目概述
+## 🎯 项目概述
 
-性压抑指数计算器是一个基于多个经过验证的心理测量量表的专业评估工具，帮助用户科学地了解自己的性心理特征，促进性健康和亲密关系的发展。
+China Deep Learning 是一个基于AI技术的专业工具平台，目前已成功上线**性压抑指数计算器**作为首个核心工具。该平台采用现代化架构，支持多工具扩展，为个人成长、学术研究和专业应用提供科学可靠的解决方案。
 
-### ✨ 核心特性
+### 🚀 MVP版本里程碑 (v1.0.0)
 
-- 🔬 **科学可靠**: 基于SIS/SES、Mosher性内疚、KISS-9、SOS等国际认可量表
-- ⚡ **双版本支持**: 快测版(39题，8-15分钟) + 完整版(117题，25-40分钟)
+**✅ 已完成核心功能:**
+- ✅ 性压抑指数计算器完整功能
+- ✅ 主站点首页 (www.chinadeeplearning.com)
+- ✅ 统一设计风格和用户体验
+- ✅ 生产环境部署和优化
+- ✅ Cloudflare Tunnel配置
+- ✅ 静态文件服务架构
+- ✅ 完整的部署文档
+
+**🎯 访问地址:**
+- **主站**: https://www.chinadeeplearning.com/
+- **性压抑计算器**: https://www.chinadeeplearning.com/sri/
+
+## 🏗️ 平台架构
+
+### 技术栈
+- **前端**: React 19 + TypeScript + Tailwind CSS
+- **构建**: Rsbuild + npm
+- **部署**: Nginx静态文件服务 + Cloudflare Tunnel
+- **服务器**: Ubuntu 24.04 + 宝塔面板管理
+
+### 部署架构
+```
+用户访问 → Cloudflare CDN → Cloudflare Tunnel → Nginx → 静态文件
+```
+
+## 🔧 当前工具集
+
+### 1. 性压抑指数计算器 (SRI Calculator) ✅ 已上线
+
+基于国际认可心理测量学量表的专业性心理健康评估工具。
+
+**核心特性:**
+- 🔬 **科学可靠**: 基于SIS/SES、Mosher性内疚、KISS-9、SOS等量表
+- ⚡ **双版本支持**: 快测版(8-15分钟) + 完整版(25-40分钟)
 - 📊 **专业分析**: 四维度分析 + SRI指数(0-100) + 个性化建议
 - 🔒 **隐私保护**: 100%本地数据处理，无服务器传输
-- 📱 **现代化UI**: 响应式设计，支持所有设备
-- 💾 **数据管理**: 历史记录、数据导出、自动保存
-- 🔗 **社交分享**: 多平台分享、智能文案、二维码生成
+- 📱 **响应式设计**: 支持所有设备访问
+
+**技术实现:**
+- 纯前端React应用
+- 本地localStorage数据存储
+- 科学的心理测量算法
+- 完整的用户体验流程
+
+### 2. AI数据分析平台 🚧 即将推出
+基于深度学习的数据分析平台，提供自动化数据处理、模式识别和预测分析功能。
+
+### 3. 智能学习助手 🚧 开发中
+AI驱动的个性化学习平台，根据学习者特点提供定制化学习路径和内容推荐。
 
 ## 🚀 快速开始
 
-### 环境要求
-
-- Node.js >= 22.0.0
+### 开发环境要求
+- Node.js >= 18.0.0
 - 现代浏览器支持
 
-### 安装和运行
-
-```
+### 本地开发
+```bash
 # 克隆项目
-git clone [project-url]
-cd Sexual-Repression-Calculator
+git clone https://github.com/pgaicoding/Sexual-Repression-Calculator-main.git
+cd Sexual-Repression-Calculator-main
 
 # 安装依赖
 npm install
@@ -36,144 +77,42 @@ npm install
 # 启动开发服务器
 npm run dev
 
-# 构建生产版本
-npm run build
-
-# 启动生产服务器
-npm start
+# 构建前端静态文件
+npm run build:client
 ```
 
-### 使用 Docker 运行
+### 生产部署
 
+详细部署指南请参考: [DEPLOYMENT.md](DEPLOYMENT.md)
+
+**部署方式**: 静态文件服务 (推荐)
 ```bash
-docker run -p 8000:8000 appe233/sexual-repression-calculator
-```
+# 构建前端静态文件
+npm run build:client
 
-### 访问应用
-
-- 开发环境: http://localhost:3000
-- 生产环境: 根据部署配置
-
-## ☁️ Cloudflare Pages 部署
-
-该项目已针对 Cloudflare Pages 进行优化，可以轻松部署。
-
-### 部署配置
-
-- **构建命令**: `npm run cf:deploy`
-- **输出目录**: `dist`
-
-### 部署步骤
-
-1. 将代码推送到 GitHub 仓库
-2. 在 Cloudflare Dashboard 中创建 Pages 应用
-3. 连接 GitHub 仓库
-4. 配置构建设置：
-   - 构建命令: `npm run cf:deploy`
-   - 输出目录: `dist`
-5. 点击部署
-
-### 防滥用功能
-
-为了防止项目被恶意倒卖，本项目提供了两种防滥用机制：
-
-1. **跳转页面机制**（推荐用于完全阻止访问）：
-   - 在 Cloudflare Pages 项目设置中添加环境变量：
-     - `ABUSE_REDIRECT_ENABLED` = `true`
-   - 当该环境变量设置为 `true` 时，所有访问都会跳转到防滥用说明页面
-   - 该页面会倒计时5秒后自动跳转到 GitHub 原始项目地址
-   - 用户也可以手动点击按钮立即跳转
-
-2. **弹窗提醒机制**（用于提醒用户）：
-   - 在 Cloudflare Pages 项目设置中添加环境变量：
-     - `SHOW_ABUSE_POPUP` = `true`
-   - 当该环境变量设置为 `true` 时，用户访问网站时会看到防滥用提醒弹窗
-   - 用户关闭弹窗后可以正常使用网站
-
-你可以根据需要选择其中一种或两种机制同时使用。
-
-### 注意事项
-
-- 此应用是纯静态的 React 应用，所有数据处理都在客户端进行
-- 不需要服务器端 API，所有功能都可以在浏览器中完成
-- 应用使用 localStorage 存储用户数据，数据不会上传到服务器
-- 使用 `--legacy-peer-deps` 参数解决依赖冲突问题
-
-## 📋 功能说明
-
-### 评估版本
-
-#### 🏃‍♂️ 快测版 (推荐)
-- **时长**: 8-15分钟
-- **题目**: 39题
-- **量表**: SIS/SES-SF(14) + Mosher性内疚(10) + KISS-9(9) + SOS筛查(5)
-- **适用**: 初次使用、快速了解
-
-#### 🎯 完整版
-- **时长**: 25-40分钟
-- **题目**: 117题
-- **量表**: 完整版SIS/SES(45) + 完整Mosher(28) + KISS-9(9) + 完整SOS(21) + BSAS(23)
-- **适用**: 深入分析、专业咨询
-
-### 核心算法
-
-#### SRI指数计算
-```
-SRI = Σ(标准化维度分数) → 0-100映射
-四维度: SOS反向 + 性内疚 + 性羞耻 + SIS优势
-```
-
-#### 等级划分
-- 很低 (0-20): 较少压抑
-- 偏低 (20-40): 轻度压抑
-- 中等 (40-60): 中度压抑
-- 偏高 (60-80): 较高压抑
-- 很高 (80-100): 高度压抑
-
-## 🏗️ 技术架构
-
-### 前端技术栈
-
-- **框架**: React 19 + TypeScript
-- **路由**: React Router v7
-- **样式**: Tailwind CSS + shadcn/ui
-- **状态管理**: React Query + React Hooks
-- **图表**: Recharts
-- **表单**: React Hook Form + Zod
-- **图标**: Lucide React
-
-### 后端技术栈
-
-- **运行时**: Deno Edge Function
-- **框架**: Hono.js + zValidator
-- **数据验证**: Zod
-- **构建工具**: Rsbuild
-
-### 数据架构
-
-```
-用户数据流:
-知情同意 → 人口学信息 → 问卷评估 → 结果计算 → 本地存储
-                                    ↓
-                        历史记录 ← 数据导出
+# 部署到Nginx静态目录
+cp -r dist/web/* /www/wwwroot/www.chinadeeplearning.com/sri/
 ```
 
 ## 📁 项目结构
 
 ```
-src/
-├── components/          # React组件
-│   ├── assessment/      # 评估相关组件
-│   ├── common/         # 通用组件
-│   └── ui/             # shadcn/ui组件
-├── pages/              # 页面组件
-├── lib/                # 工具库
-│   ├── scales/         # 量表定义
-│   ├── calculator/     # 计算引擎
-│   └── storage/        # 存储管理
-├── types/              # TypeScript类型
-├── server/             # 服务端代码
-└── styles/             # 样式文件
+├── src/                          # 源代码
+│   ├── components/               # React组件
+│   │   ├── assessment/           # 评估相关组件
+│   │   ├── common/              # 通用组件
+│   │   └── ui/                  # shadcn/ui组件
+│   ├── pages/                   # 页面组件
+│   ├── lib/                     # 工具库
+│   │   ├── scales/              # 量表定义
+│   │   ├── calculator/          # 计算引擎
+│   │   └── storage/             # 存储管理
+│   └── types/                   # TypeScript类型
+├── homepage/                    # 主站点首页
+│   └── index.html              # 主站点HTML文件
+├── DEPLOYMENT.md               # 完整部署文档
+├── package.json                # 项目配置
+└── README.md                   # 项目说明
 ```
 
 ## 🔒 隐私保护
