@@ -44,7 +44,27 @@ Node.js 应用 (端口 3001)
 2. **安装Node.js 18+**:
    - Node.js管理器 → 设置 → 安装 Node.js 18.x
 
-3. **安装PM2管理器**:
+3. **验证Node.js安装**:
+   ```bash
+   node --version  # 应该显示 v18.x.x 或更高
+   npm --version   # 应该显示 npm 版本
+   ```
+
+4. **如果npm命令未找到，手动安装Node.js**:
+   ```bash
+   # 更新软件包列表
+   sudo apt update
+
+   # 安装Node.js 18.x
+   curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash -
+   sudo apt-get install -y nodejs
+
+   # 验证安装
+   node --version
+   npm --version
+   ```
+
+5. **安装PM2管理器**:
    - 软件商店 → 搜索 "PM2管理器" → 安装
 
 ### 第三步：部署项目代码
@@ -215,7 +235,28 @@ pm2 delete sri-calculator
 
 ## 故障排除
 
-### 1. 应用无法启动
+### 1. npm命令未找到
+
+**错误信息**: `npm command not found, but can be installed with: apt install npm`
+
+**解决方案**:
+```bash
+# 方法1: 安装官方推荐版本 (推荐)
+curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash -
+sudo apt-get install -y nodejs
+
+# 方法2: 使用系统包管理器 (版本可能较老)
+sudo apt update
+sudo apt install nodejs npm
+
+# 验证安装
+node --version  # 需要 >= v18.0.0
+npm --version
+
+# 如果版本太低，使用方法1重新安装
+```
+
+### 2. 应用无法启动
 
 **检查项**:
 - Node.js版本是否为18+: `node --version`
