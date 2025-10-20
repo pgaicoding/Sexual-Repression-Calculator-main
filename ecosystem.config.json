@@ -3,7 +3,7 @@
     {
       "name": "sri-calculator",
       "script": "./dist/server.cjs",
-      "cwd": "/www/wwwroot/sri",
+      "cwd": "/www/wwwroot/www.chinadeeplearning.com/sri",
       "instances": 1,
       "exec_mode": "cluster",
       "env": {
