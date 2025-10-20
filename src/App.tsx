@@ -28,7 +28,7 @@ const App: React.FC = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
       <Toaster richColors />
-      <BrowserRouter>
+      <BrowserRouter basename="/sri">
         <ScrollToTop />
         <Routes>
           <Route path="/" element={<Index />} />

@@ -18,6 +18,7 @@ export default defineConfig({
     distPath: {
       root: "dist/web",
     },
+    assetPrefix: "/sri/",
     legalComments: "none",
   },
   dev: {
