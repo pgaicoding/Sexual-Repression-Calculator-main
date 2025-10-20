@@ -210,18 +210,28 @@ systemctl status nginx
 ```bash
 cd /www/wwwroot/www.chinadeeplearning.com/sri
 
-# 拉取最新代码
-git pull
+# 1. 停止当前服务
+pm2 stop sri-calculator
 
-# 重新构建
+# 2. 拉取最新代码
+git pull origin main
+
+# 3. 重新构建（如果有代码变更）
 npm run build:prod
 
-# 重启应用
-pm2 reload sri-calculator
+# 4. 重启应用
+pm2 start sri-calculator
+# 或者使用 pm2 restart sri-calculator
 
-# 查看状态
+# 5. 查看状态和日志
 pm2 status
+pm2 logs sri-calculator
 ```
+
+**注意事项**:
+- 应用名称为 `sri-calculator`，不是 `sri`
+- 推荐先停止服务再拉取代码，避免运行时文件冲突
+- 如果只是配置文件修改，可以直接使用 `pm2 restart sri-calculator`
 
 ### 查看日志
 
