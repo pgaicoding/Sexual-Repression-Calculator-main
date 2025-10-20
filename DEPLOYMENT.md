@@ -310,7 +310,32 @@ npm run build:prod
 cd dist && node server.cjs
 ```
 
-### 2. 端口冲突
+### 3. "Bun is not defined" 错误
+
+**错误信息**: `ReferenceError: Bun is not defined`
+
+**原因**: 代码中包含了Bun运行时的引用，但在Node.js环境下运行
+
+**解决方案**:
+```bash
+# 确保拉取到最新修复的代码
+git fetch origin main
+git reset --hard origin/main
+
+# 验证代码已更新
+cat src/server/app.node.ts
+
+# 重新构建和重启
+npm run build:prod
+pm2 restart sri-calculator
+
+# 检查日志确认修复
+pm2 logs sri-calculator
+```
+
+**验证修复**: 日志中应该显示 `🚀 Server running on http://localhost:3001`
+
+### 4. 端口冲突
 
 **检查端口占用**:
 ```bash
@@ -321,21 +346,21 @@ netstat -tlnp | grep 3001
 - 修改 `ecosystem.config.json` 中的端口
 - 同时更新Nginx配置中的 `proxy_pass` 端口
 
-### 3. 静态资源404
+### 5. 静态资源404
 
 **检查项**:
 - 静态文件路径: `/www/wwwroot/www.chinadeeplearning.com/sri/dist/web/static/`
 - Nginx配置中的 `alias` 路径
 - 文件权限: `chown -R www:www /www/wwwroot/www.chinadeeplearning.com/sri`
 
-### 4. SSL证书问题
+### 6. SSL证书问题
 
 **解决方案**:
 - 重新申请Let's Encrypt证书
 - 检查域名DNS解析
 - 确保80端口可访问
 
-### 5. 内存不足
+### 7. 内存不足
 
 **监控命令**:
 ```bash
