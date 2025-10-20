@@ -4,7 +4,7 @@ import { resolve } from "path";
 export default defineConfig({
   source: {
     entry: {
-      server: "./src/server/app.prod.ts",
+      server: "./src/server/app.node.ts",
     },
   },
   output: {
