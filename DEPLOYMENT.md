@@ -6,19 +6,19 @@
 
 - **项目名称**: 性压抑指数计算器
 - **部署路径**: `www.chinadeeplearning.com/sri/`
-- **技术栈**: React + TypeScript + Hono.js + Node.js
-- **运行端口**: 3001
+- **技术栈**: React + TypeScript (纯前端静态项目)
+- **访问地址**: https://www.chinadeeplearning.com/sri/
 
 ## 部署架构
 
 ```
 用户访问: https://www.chinadeeplearning.com/sri/
     ↓
-Nginx 反向代理 (宝塔)
+Cloudflare Tunnel
     ↓
-Node.js 应用 (端口 3001)
+Nginx 静态文件服务
     ↓
-静态文件服务 (/www/wwwroot/www.chinadeeplearning.com/sri/dist/web/)
+静态文件目录 (/www/wwwroot/www.chinadeeplearning.com/sri/dist/web/)
 ```
 
 ## 完整部署步骤
@@ -50,39 +50,6 @@ Node.js 应用 (端口 3001)
    npm --version   # 应该显示 npm 版本
    ```
 
-4. **如果npm命令未找到，手动安装Node.js**:
-   ```bash
-   # 更新软件包列表
-   sudo apt update
-
-   # 安装Node.js 18.x
-   curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash -
-   sudo apt-get install -y nodejs
-
-   # 验证安装
-   node --version
-   npm --version
-   ```
-
-5. **如果使用宝塔安装的Node.js出现"npm command not found"**:
-   ```bash
-   # 查找宝塔安装的Node.js位置
-   find /www/server/nodejs -name "node" -type f 2>/dev/null
-
-   # 创建软链接 (以v22.20.0为例，请根据实际版本调整)
-   sudo ln -s /www/server/nodejs/v22.20.0/bin/node /usr/local/bin/node
-   sudo ln -s /www/server/nodejs/v22.20.0/bin/npm /usr/local/bin/npm
-
-   # 验证软链接创建成功
-   which node
-   which npm
-   node --version
-   npm --version
-   ```
-
-6. **安装PM2管理器**:
-   - 软件商店 → 搜索 "PM2管理器" → 安装
-
 ### 第三步：部署项目代码
 
 1. **进入站点目录**:
@@ -107,100 +74,103 @@ Node.js 应用 (端口 3001)
 # 安装依赖
 npm install
 
-# 构建生产版本
-npm run build:prod
-
-# 创建日志目录
-mkdir -p logs
+# 构建前端静态文件
+npm run build:client
 
 # 验证构建结果
-ls -la dist/
+ls -la dist/web/
 ```
 
 **预期结果**:
-- `dist/server.cjs` - Node.js服务器文件
-- `dist/web/` - 前端构建文件
-- `ecosystem.config.json` - PM2配置文件
+- `dist/web/index.html` - 主页面文件
+- `dist/web/static/` - 静态资源目录
 
-### 第五步：启动应用服务
+### 第五步：配置Nginx
 
-```bash
-# 使用PM2启动应用
-pm2 start ecosystem.config.json
-
-# 查看应用状态
-pm2 status
-
-# 查看日志 (确保启动成功)
-pm2 logs sri-calculator
-
-# 设置开机自启
-pm2 save
-pm2 startup
-```
-
-### 第六步：配置Nginx反向代理
-
-在宝塔面板中编辑 `www.chinadeeplearning.com` 站点配置文件，添加以下配置到 `server` 块内:
+在宝塔面板中编辑网站配置，确保包含以下配置：
 
 ```nginx
-# 性压抑计算器 - 反向代理配置
-location /sri/ {
-    # 移除 /sri 前缀，转发到后端
-    rewrite ^/sri/(.*) /$1 break;
+server {
+    listen 80;
+    listen 443 ssl;
+    http2 on;
+    server_name www.chinadeeplearning.com chinadeeplearning.com;
+    root /www/wwwroot/www.chinadeeplearning.com;
+    index index.html index.htm;
 
-    proxy_pass http://127.0.0.1:3001;
-    proxy_set_header Host $host;
-    proxy_set_header X-Real-IP $remote_addr;
-    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-    proxy_set_header X-Forwarded-Proto $scheme;
-    proxy_set_header X-Forwarded-Host $host;
-    proxy_set_header X-Forwarded-Port $server_port;
+    # SSL配置
+    ssl_certificate /www/server/panel/vhost/cert/www.chinadeeplearning.com/fullchain.pem;
+    ssl_certificate_key /www/server/panel/vhost/cert/www.chinadeeplearning.com/privkey.pem;
+    ssl_protocols TLSv1.2 TLSv1.3;
+    ssl_ciphers ECDHE-RSA-AES256-GCM-SHA384:ECDHE-RSA-AES128-GCM-SHA256;
+    ssl_prefer_server_ciphers off;
 
-    # WebSocket 支持
-    proxy_http_version 1.1;
-    proxy_set_header Upgrade $http_upgrade;
-    proxy_set_header Connection 'upgrade';
-    proxy_cache_bypass $http_upgrade;
-}
+    # 性压抑计算器静态文件
+    location /sri/ {
+        alias /www/wwwroot/www.chinadeeplearning.com/sri/dist/web/;
+        try_files $uri $uri/ /sri/index.html;
+        index index.html;
+    }
 
-# 静态资源直接服务 - 性能优化
-location /sri/static/ {
-    alias /www/wwwroot/www.chinadeeplearning.com/sri/dist/web/static/;
-    expires 1y;
-    add_header Cache-Control "public, immutable";
-    access_log off;
+    # 主站点
+    location / {
+        try_files $uri $uri/ /index.html;
+    }
+
+    access_log /www/wwwlogs/chinadeeplearning.com.log;
+    error_log /www/wwwlogs/chinadeeplearning.com.error.log;
 }
 ```
 
-### 第七步：配置防火墙
+### 第六步：配置Cloudflare Tunnel
 
-在宝塔面板安全设置中添加端口规则:
-- 端口: `3001`
-- 类型: `TCP`
-- 策略: `放行`
-- 备注: `性压抑计算器Node.js应用`
+编辑 `/etc/cloudflared/config.yml`：
+
+```yaml
+tunnel: bt-tunnel
+credentials-file: /home/pengge/.cloudflared/af8df9d1-a880-4038-8942-44488293de60.json
+
+ingress:
+  - hostname: bt.chinadeeplearning.com
+    service: https://192.168.1.168:8848
+    originRequest:
+      noTLSVerify: true
+  - hostname: www.chinadeeplearning.com
+    service: http://localhost:80
+  - hostname: chinadeeplearning.com
+    service: http://localhost:80
+  - service: http_status:404
+```
+
+重启Cloudflare Tunnel：
+```bash
+sudo systemctl restart cloudflared
+```
+
+### 第七步：重载Nginx配置
+
+```bash
+sudo nginx -s reload
+```
+
+或在宝塔面板中：软件商店 → Nginx → 设置 → 重载配置
 
 ### 第八步：验证部署
 
 **测试URL**:
-- 主页: `https://www.chinadeeplearning.com/sri/`
+- 主应用: `https://www.chinadeeplearning.com/sri/`
 - 评估页面: `https://www.chinadeeplearning.com/sri/assessment`
-- 静态资源: `https://www.chinadeeplearning.com/sri/static/css/index.*.css`
 
 **检查命令**:
 ```bash
-# PM2状态
-pm2 status
+# 验证静态文件存在
+ls -la /www/wwwroot/www.chinadeeplearning.com/sri/dist/web/
 
-# 应用日志
-pm2 logs sri-calculator
+# 检查Nginx配置
+sudo nginx -t
 
-# 端口监听
-netstat -tlnp | grep 3001
-
-# Nginx状态
-systemctl status nginx
+# 查看Cloudflare Tunnel状态
+sudo systemctl status cloudflared
 ```
 
 ## 日常维护
@@ -210,92 +180,57 @@ systemctl status nginx
 ```bash
 cd /www/wwwroot/www.chinadeeplearning.com/sri
 
-# 1. 停止当前服务
-pm2 stop sri-calculator
-
-# 2. 拉取最新代码
+# 拉取最新代码
 git pull origin main
 
-# 3. 重新构建（如果有代码变更）
-npm run build:prod
+# 重新构建前端
+npm run build:client
 
-# 4. 重启应用
-pm2 start sri-calculator
-# 或者使用 pm2 restart sri-calculator
-
-# 5. 查看状态和日志
-pm2 status
-pm2 logs sri-calculator
+# 验证文件更新
+ls -la dist/web/
 ```
 
 **注意事项**:
-- 应用名称为 `sri-calculator`，不是 `sri`
-- 推荐先停止服务再拉取代码，避免运行时文件冲突
-- 如果只是配置文件修改，可以直接使用 `pm2 restart sri-calculator`
+- 这是纯静态项目，不需要重启任何服务
+- 更新后立即生效
 
 ### 查看日志
 
 ```bash
-# 实时日志
-pm2 logs sri-calculator
+# Nginx访问日志
+tail -f /www/wwwlogs/chinadeeplearning.com.log
 
-# 查看最近100行日志
-pm2 logs sri-calculator --lines 100
+# Nginx错误日志
+tail -f /www/wwwlogs/chinadeeplearning.com.error.log
 
-# 清空日志
-pm2 flush sri-calculator
-```
-
-### 重启/停止应用
-
-```bash
-# 重启应用
-pm2 restart sri-calculator
-
-# 停止应用
-pm2 stop sri-calculator
-
-# 删除应用进程
-pm2 delete sri-calculator
+# Cloudflare Tunnel日志
+sudo journalctl -u cloudflared -f
 ```
 
 ## 故障排除
 
-### 1. npm命令未找到
-
-**错误信息**: `npm command not found, but can be installed with: apt install npm`
-
-**原因**: 宝塔安装的Node.js位于 `/www/server/nodejs/` 目录，不在系统PATH中
-
-**解决方案** (推荐使用软链接):
-```bash
-# 方法1: 创建软链接 (推荐，适用于宝塔安装的Node.js)
-# 查找Node.js版本
-ls /www/server/nodejs/
-
-# 创建软链接 (根据实际版本调整，如 v22.20.0)
-sudo ln -s /www/server/nodejs/v22.20.0/bin/node /usr/local/bin/node
-sudo ln -s /www/server/nodejs/v22.20.0/bin/npm /usr/local/bin/npm
-
-# 验证
-which node && which npm
-node --version && npm --version
-
-# 方法2: 重新安装Node.js (如果宝塔版本有问题)
-curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash -
-sudo apt-get install -y nodejs
-
-# 方法3: 使用完整路径 (临时方案)
-/www/server/nodejs/v22.20.0/bin/npm --version
-```
-
-### 2. 应用无法启动
+### 1. 静态文件404
 
 **检查项**:
-- Node.js版本是否为18+: `node --version`
-- 依赖是否安装完整: `npm install`
-- 构建是否成功: `ls -la dist/`
-- PM2配置路径是否正确
+- 静态文件路径: `/www/wwwroot/www.chinadeeplearning.com/sri/dist/web/`
+- Nginx配置中的 `alias` 路径
+- 文件权限: `chown -R www:www /www/wwwroot/www.chinadeeplearning.com/sri`
+
+### 2. Cloudflare Tunnel错误
+
+**解决方案**:
+```bash
+# 重启tunnel服务
+sudo systemctl restart cloudflared
+
+# 查看服务状态
+sudo systemctl status cloudflared
+
+# 查看详细日志
+sudo journalctl -u cloudflared -f --lines=20
+```
+
+### 3. 构建失败
 
 **解决方案**:
 ```bash
@@ -304,99 +239,23 @@ rm -rf node_modules package-lock.json
 npm install
 
 # 重新构建
-npm run build:prod
+npm run build:client
 
-# 手动启动测试
-cd dist && node server.cjs
+# 检查Node.js版本
+node --version  # 需要18+
 ```
 
-### 3. "Bun is not defined" 错误
-
-**错误信息**: `ReferenceError: Bun is not defined`
-
-**原因**: 代码中包含了Bun运行时的引用，但在Node.js环境下运行
-
-**解决方案**:
-```bash
-# 确保拉取到最新修复的代码
-git fetch origin main
-git reset --hard origin/main
-
-# 验证代码已更新
-cat src/server/app.node.ts
-
-# 重新构建和重启
-npm run build:prod
-pm2 restart sri-calculator
-
-# 检查日志确认修复
-pm2 logs sri-calculator
-```
-
-**验证修复**: 日志中应该显示 `🚀 Server running on http://localhost:3001`
-
-### 4. 端口冲突
-
-**检查端口占用**:
-```bash
-netstat -tlnp | grep 3001
-```
-
-**解决方案**:
-- 修改 `ecosystem.config.json` 中的端口
-- 同时更新Nginx配置中的 `proxy_pass` 端口
-
-### 5. 静态资源404
-
-**检查项**:
-- 静态文件路径: `/www/wwwroot/www.chinadeeplearning.com/sri/dist/web/static/`
-- Nginx配置中的 `alias` 路径
-- 文件权限: `chown -R www:www /www/wwwroot/www.chinadeeplearning.com/sri`
-
-### 6. SSL证书问题
+### 4. SSL证书问题
 
 **解决方案**:
 - 重新申请Let's Encrypt证书
 - 检查域名DNS解析
 - 确保80端口可访问
 
-### 7. 内存不足
-
-**监控命令**:
-```bash
-# 查看内存使用
-free -h
-
-# 查看PM2进程内存使用
-pm2 monit
-```
-
-**解决方案**:
-- 重启PM2进程: `pm2 restart sri-calculator`
-- 增加服务器内存
-- 优化应用代码
-
 ## 配置文件说明
 
-### ecosystem.config.json
-```json
-{
-  "apps": [{
-    "name": "sri-calculator",
-    "script": "./dist/server.cjs",
-    "cwd": "/www/wwwroot/www.chinadeeplearning.com/sri",
-    "instances": 1,
-    "exec_mode": "cluster",
-    "env": {
-      "NODE_ENV": "production",
-      "PORT": "3001"
-    }
-  }]
-}
-```
-
 ### 关键构建脚本
-- `npm run build:prod` - 生产环境构建
+- `npm run build:client` - 前端静态文件构建
 - `npm run type-check` - TypeScript类型检查
 - `npm run lint` - 代码规范检查
 
@@ -407,9 +266,9 @@ pm2 monit
    - 定期更新npm依赖包
    - 定期更新系统安全补丁
 
-2. **监控日志**:
-   - 定期检查应用日志
-   - 监控错误率和性能指标
+2. **监控**:
+   - 定期检查访问日志
+   - 监控网站可用性
    - 设置日志轮转避免磁盘空间问题
 
 3. **备份策略**:
